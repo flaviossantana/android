@@ -1,0 +1,52 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/cadastro_nome"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Nome" />
+
+        <EditText
+            android:id="@+id/cadastro_endereco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Endereço" />
+
+        <EditText
+            android:id="@+id/cadastro_telefone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Telefone" />
+
+        <EditText
+            android:id="@+id/cadastro_site"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Site" />
+
+        <RatingBar
+            android:id="@+id/cadastro_nota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:max="10"
+            android:numStars="5"
+            android:layout_gravity="center"/>
+
+        <!--<Button-->
+            <!--android:id="@+id/cadastro_salvar"-->
+            <!--android:text="Salvar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
+
+    </LinearLayout>
+
+</ScrollView>
