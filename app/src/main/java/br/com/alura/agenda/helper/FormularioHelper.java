@@ -1,10 +1,12 @@
 package br.com.alura.agenda.helper;
 
+import android.support.annotation.NonNull;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
 import br.com.alura.agenda.FormularioActivity;
 import br.com.alura.agenda.R;
+import br.com.alura.agenda.modelo.Aluno;
 
 /**
  * Created by f1avi on 14/02/2018.
@@ -26,6 +28,21 @@ public class FormularioHelper {
         campoSite = getEditText(R.id.cadastro_site);
         campoTelefone = getEditText(R.id.cadastro_telefone);
         campoNota = getRatingBar(R.id.cadastro_nota);
+    }
+
+    public Aluno getAluno(){
+        Aluno aluno = new Aluno();
+        aluno.setEndereco(getEditTexValue(campoEndereco));
+        aluno.setNome(getEditTexValue(campoNome));
+        aluno.setNota(Double.valueOf(campoNota.getProgress()));
+        aluno.setSite(getEditTexValue(campoSite));
+        aluno.setTelefone(getEditTexValue(campoTelefone));
+        return aluno;
+    }
+
+    @NonNull
+    private String getEditTexValue(EditText editText) {
+        return editText.getText().toString();
     }
 
     private EditText getEditText(int idCampo) {

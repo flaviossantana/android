@@ -9,12 +9,18 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import br.com.alura.agenda.helper.FormularioHelper;
+import br.com.alura.agenda.modelo.Aluno;
+
 public class FormularioActivity extends AppCompatActivity {
+
+    private FormularioHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario);
+        helper = new FormularioHelper(this);
     }
 
     @Override
@@ -31,14 +37,11 @@ public class FormularioActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.menu_formulario_ok:
-                Toast.makeText(FormularioActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
 
-                String nome = getEditTextValue(R.id.cadastro_nome);
-                String endereco = getEditTextValue(R.id.cadastro_endereco);
-                String telefone = getEditTextValue(R.id.cadastro_telefone);
-                String site = getEditTextValue(R.id.cadastro_site);
+                Aluno aluno = helper.getAluno();
 
-                RatingBar rt = findViewById(R.id.cadastro_nota);
+                Toast.makeText(FormularioActivity.this, aluno.getNome() +  " salvo com sucesso!", Toast.LENGTH_SHORT).show();
+
 
                 finish();
                 break;
@@ -47,8 +50,4 @@ public class FormularioActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private String getEditTextValue(int idCampo) {
-        EditText editText = findViewById(idCampo);
-        return editText.getText().toString();
-    }
 }
