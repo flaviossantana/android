@@ -8,6 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.util.List;
+
+import br.com.alura.agenda.dao.AlunoDAO;
+import br.com.alura.agenda.modelo.Aluno;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -15,9 +20,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String[] alunos = {"ANA HINT", "MARIA", "JOSE", "EUGENIA", "EVA", "FLAVIO", "BETO", "OSVALDO", "ANDREA", "GUSTAVO", "RUAN", "CARLOS", "JOSEFH", "PAULO", "VICTOR"};
+        AlunoDAO dao = new AlunoDAO(this);
+        List<Aluno> alunos = dao.buscarAlunos();
+        dao.close();
+
         ListView listaAlunosView = findViewById(R.id.lista_alunos);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alunos);
+        ArrayAdapter<Aluno> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alunos);
         listaAlunosView.setAdapter(adapter);
 
         Button incluirAlunobtn = findViewById(R.id.lista_incluir_aluno);
@@ -30,4 +38,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
 }
