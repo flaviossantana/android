@@ -15,15 +15,6 @@ public class FormularioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario);
-
-//        Button salvarBtn = findViewById(R.id.cadastro_salvar);
-//        salvarBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//            Toast.makeText(FormularioActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
-//            finish();
-//            }
-//        });
     }
 
     @Override
