@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import br.com.alura.agenda.dao.AlunoDAO;
 import br.com.alura.agenda.helper.FormularioHelper;
 import br.com.alura.agenda.modelo.Aluno;
 
@@ -39,6 +40,9 @@ public class FormularioActivity extends AppCompatActivity {
             case R.id.menu_formulario_ok:
 
                 Aluno aluno = helper.getAluno();
+                AlunoDAO dao = new AlunoDAO(this);
+                dao.inserir(aluno);
+                dao.close();
 
                 Toast.makeText(FormularioActivity.this, aluno.getNome() +  " salvo com sucesso!", Toast.LENGTH_SHORT).show();
 
