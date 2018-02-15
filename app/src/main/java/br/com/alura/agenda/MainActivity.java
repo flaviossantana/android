@@ -32,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> lista, View item, int position, long id) {
                 Aluno aluno = getAlunoPosition(position);
+
+                Intent irCadastro = new Intent(MainActivity.this, FormularioActivity.class);
+                irCadastro.putExtra("aluno", aluno);
+                startActivity(irCadastro);
+
+
                 Toast.makeText(MainActivity.this, aluno.getNome() +  " clicado com sucesso!", Toast.LENGTH_SHORT).show();
             }
         });

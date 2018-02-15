@@ -1,5 +1,6 @@
 package br.com.alura.agenda;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -8,6 +9,8 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
+
+import java.io.Serializable;
 
 import br.com.alura.agenda.dao.AlunoDAO;
 import br.com.alura.agenda.helper.FormularioHelper;
@@ -22,6 +25,15 @@ public class FormularioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario);
         helper = new FormularioHelper(this);
+        isAlterarAluno();
+    }
+
+    private void isAlterarAluno() {
+        Intent intent = getIntent();
+        Aluno aluno = (Aluno) intent.getSerializableExtra("aluno");
+        if(aluno != null){
+            helper.setAluno(aluno);
+        }
     }
 
     @Override

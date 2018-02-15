@@ -14,6 +14,8 @@ import br.com.alura.agenda.modelo.Aluno;
 
 public class FormularioHelper {
 
+    private Aluno aluno;
+
     private final FormularioActivity activity;
     private final EditText campoNome;
     private final EditText campoEndereco;
@@ -22,6 +24,7 @@ public class FormularioHelper {
     private final RatingBar campoNota;
 
     public FormularioHelper(FormularioActivity activity) {
+        this.aluno = new Aluno();
         this.activity = activity;
         campoNome = getEditText(R.id.cadastro_nome);
         campoEndereco = getEditText(R.id.cadastro_endereco);
@@ -38,6 +41,15 @@ public class FormularioHelper {
         aluno.setSite(getEditTexValue(campoSite));
         aluno.setTelefone(getEditTexValue(campoTelefone));
         return aluno;
+    }
+
+    public void setAluno(Aluno aluno){
+        campoEndereco.setText(aluno.getEndereco());
+        campoNome.setText(aluno.getNome());
+        campoNota.setProgress(aluno.getNota().intValue());
+        campoSite.setText(aluno.getSite());
+        campoTelefone.setText(aluno.getTelefone());
+        this.aluno = aluno;
     }
 
     @NonNull
