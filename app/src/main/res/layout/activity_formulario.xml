@@ -8,6 +8,30 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="249dp">
+
+            <ImageView
+                android:id="@+id/cadasatro_foto"
+                android:layout_width="match_parent"
+                android:layout_height="225dp"
+                android:src="@drawable/person_01"
+                android:background="#81008cff"
+                 />
+
+            <Button
+                android:id="@+id/cadasatro_incluir_foto"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/fundo_camera"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                />
+
+        </RelativeLayout>
+
         <EditText
             android:id="@+id/cadastro_nome"
             android:layout_height="wrap_content"
