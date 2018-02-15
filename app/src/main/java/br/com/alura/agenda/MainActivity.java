@@ -28,6 +28,14 @@ public class MainActivity extends AppCompatActivity {
 
         listaAlunosView = findViewById(R.id.lista_alunos);
 
+        listaAlunosView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> lista, View item, int position, long id) {
+                Aluno aluno = getAlunoPosition(position);
+                Toast.makeText(MainActivity.this, aluno.getNome() +  " clicado com sucesso!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         Button incluirAlunobtn = findViewById(R.id.lista_incluir_aluno);
         incluirAlunobtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,18 +62,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-                Aluno aluno = (Aluno) listaAlunosView.getItemAtPosition(info.position);
 
-                AlunoDAO dao = new AlunoDAO(MainActivity.this);
-                dao.deletar(aluno);
-                dao.close();
-
+                Aluno aluno = getAlunoPosition(info.position);
+                deletarAluno(aluno);
                 buscarAlunos();
 
                 Toast.makeText(MainActivity.this, aluno.getNome() +  " deletado com sucesso!", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
+    }
+
+    private Aluno getAlunoPosition(int position) {
+        return (Aluno) listaAlunosView.getItemAtPosition(position);
+    }
+
+    private void deletarAluno(Aluno aluno) {
+        AlunoDAO dao = new AlunoDAO(MainActivity.this);
+        dao.deletar(aluno);
+        dao.close();
     }
 
     private void buscarAlunos() {
