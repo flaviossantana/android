@@ -3,10 +3,14 @@ package br.com.alura.agenda;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -15,10 +19,14 @@ import br.com.alura.agenda.modelo.Aluno;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ListView listaAlunosView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        listaAlunosView = findViewById(R.id.lista_alunos);
 
         Button incluirAlunobtn = findViewById(R.id.lista_incluir_aluno);
         incluirAlunobtn.setOnClickListener(new View.OnClickListener() {
@@ -29,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        registerForContextMenu(listaAlunosView);
+
     }
 
     @Override
@@ -37,12 +47,32 @@ public class MainActivity extends AppCompatActivity {
         buscarAlunos();
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
+        MenuItem deletar = menu.add("Deletar");
+        deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+                Aluno aluno = (Aluno) listaAlunosView.getItemAtPosition(info.position);
+
+                AlunoDAO dao = new AlunoDAO(MainActivity.this);
+                dao.deletar(aluno);
+                dao.close();
+
+                buscarAlunos();
+
+                Toast.makeText(MainActivity.this, aluno.getNome() +  " deletado com sucesso!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+    }
+
     private void buscarAlunos() {
         AlunoDAO dao = new AlunoDAO(this);
         List<Aluno> alunos = dao.buscarAlunos();
         dao.close();
 
-        ListView listaAlunosView = findViewById(R.id.lista_alunos);
         ArrayAdapter<Aluno> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alunos);
         listaAlunosView.setAdapter(adapter);
     }
