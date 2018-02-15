@@ -46,7 +46,7 @@ public class FormularioActivity extends AppCompatActivity {
 
                 Toast.makeText(FormularioActivity.this, aluno.getNome() +  " salvo com sucesso!", Toast.LENGTH_SHORT).show();
                 finish();
-                //break;
+                break;
         }
 
         return super.onOptionsItemSelected(item);
