@@ -68,6 +68,16 @@ public class MainActivity extends AppCompatActivity {
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         final Aluno aluno = getAlunoPosition(info.position);
 
+        MenuItem sms = menu.add("Enviar SMS");
+        Intent irSms = new Intent(Intent.ACTION_VIEW);
+        irSms.setData(Uri.parse("sms:" + aluno.getTelefone()));
+        sms.setIntent(irSms);
+
+        MenuItem mapa = menu.add("Endereço");
+        Intent irMapa = new Intent(Intent.ACTION_VIEW);
+        irMapa.setData(Uri.parse("geo:0,0?q=" + aluno.getEndereco()));
+        mapa.setIntent(irMapa);
+
         MenuItem site = menu.add("Visitar Site");
         Intent irSite = new Intent(Intent.ACTION_VIEW);
         irSite.setData(Uri.parse(parseUrl(aluno.getSite())));
