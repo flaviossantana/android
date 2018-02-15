@@ -33,17 +33,18 @@ public class FormularioHelper {
         campoNota = getRatingBar(R.id.cadastro_nota);
     }
 
-    public Aluno getAluno(){
+    public Aluno getDadosDoAluno(){
         Aluno aluno = new Aluno();
         aluno.setEndereco(getEditTexValue(campoEndereco));
         aluno.setNome(getEditTexValue(campoNome));
         aluno.setNota(Double.valueOf(campoNota.getProgress()));
         aluno.setSite(getEditTexValue(campoSite));
         aluno.setTelefone(getEditTexValue(campoTelefone));
+        aluno.setId(this.aluno.getId());
         return aluno;
     }
 
-    public void setAluno(Aluno aluno){
+    public void setDadosDoAluno(Aluno aluno){
         campoEndereco.setText(aluno.getEndereco());
         campoNome.setText(aluno.getNome());
         campoNota.setProgress(aluno.getNota().intValue());

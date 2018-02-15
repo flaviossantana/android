@@ -47,6 +47,12 @@ public class AlunoDAO extends SQLiteOpenHelper {
         dados.put("site", aluno.getSite());
         dados.put("telefone", aluno.getTelefone());
 
+        if(aluno.getId() != null){
+            String[] params = {aluno.getId().toString()};
+            db.update("Alunos", dados, "id = ?", params);
+            return;
+        }
+
         db.insert("Alunos", null, dados);
     }
 
