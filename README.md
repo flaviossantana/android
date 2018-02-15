@@ -4,6 +4,8 @@ Repositorio para teste de contrução de um APP android com base no curso da alu
 https://cursos.alura.com.br/course/android-studio
 
 **AULA 01:** _Novo projeto de uma Agenda_
+> Um novo projeto
+
 
 **AULA 02:** _Adicionando alunos na agenda_
 
