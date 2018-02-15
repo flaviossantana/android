@@ -1,9 +1,12 @@
 package br.com.alura.agenda;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -67,6 +70,25 @@ public class MainActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         final Aluno aluno = getAlunoPosition(info.position);
+
+        MenuItem ligar = menu.add("Ligar");
+        ligar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
+                    String[] permissoes = {Manifest.permission.CALL_PHONE};
+                    ActivityCompat.requestPermissions(MainActivity.this, permissoes, 123);
+                }else {
+                    Intent irLigacao = new Intent(Intent.ACTION_CALL);
+                    irLigacao.setData(Uri.parse("tel:" + aluno.getTelefone()));
+                    startActivity(irLigacao);
+                }
+
+
+                return false;
+            }
+        });
 
         MenuItem sms = menu.add("Enviar SMS");
         Intent irSms = new Intent(Intent.ACTION_VIEW);
