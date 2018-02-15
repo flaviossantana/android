@@ -1,6 +1,9 @@
 package br.com.alura.agenda;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.Browser;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -63,13 +66,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        final Aluno aluno = getAlunoPosition(info.position);
+
+        MenuItem site = menu.add("Visitar Site");
+        Intent irSite = new Intent(Intent.ACTION_VIEW);
+        irSite.setData(Uri.parse(parseUrl(aluno.getSite())));
+        site.setIntent(irSite);
+
         MenuItem deletar = menu.add("Deletar");
         deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
-                Aluno aluno = getAlunoPosition(info.position);
                 deletarAluno(aluno);
                 buscarAlunos();
 
@@ -77,6 +86,14 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Nullable
+    private String parseUrl(String url) {
+        if(url != null && !url.startsWith("http://")){
+            url = "http://" + url;
+        }
+        return url;
     }
 
     private Aluno getAlunoPosition(int position) {
