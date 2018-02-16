@@ -9,7 +9,8 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:src="@drawable/person_01"
-        android:background="#81008cff"/>
+        android:background="#81008cff"
+        />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -24,7 +25,8 @@
             android:text="FLAVIO SOUSA SANTANA"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:paddingLeft="10dp"/>
+            android:paddingLeft="10dp"
+            />
 
         <TextView
             android:id="@+id/item_telefone"
