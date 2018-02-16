@@ -98,9 +98,11 @@ public class MainActivity extends AppCompatActivity {
                 dao.close();
 
                 String json = new AlunoConverter().toJson(alunos);
+                WebClient client = new WebClient();
+                String retorno = client.post(json);
 
 
-                Toast.makeText(this, "Enviando notas... ( " + json + " )", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Enviando notas... ( " + retorno + " )", Toast.LENGTH_SHORT).show();
 
                 break;
         }
