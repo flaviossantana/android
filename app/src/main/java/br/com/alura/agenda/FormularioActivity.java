@@ -1,15 +1,19 @@
 package br.com.alura.agenda;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -21,6 +25,8 @@ import br.com.alura.agenda.modelo.Aluno;
 public class FormularioActivity extends AppCompatActivity {
 
     private FormularioHelper helper;
+    private String caminhoFoto;
+    private final int REQUEST_FOTO = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +40,19 @@ public class FormularioActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent tirarFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                String localFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
-                File arquivoFoto = new File(localFoto);
-                tirarFoto.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
-                startActivity(tirarFoto);
+                caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
+                File arquivoFoto = new File(caminhoFoto);
+                tirarFoto.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(FormularioActivity.this,BuildConfig.APPLICATION_ID + ".provider", arquivoFoto));
+                startActivityForResult(tirarFoto, REQUEST_FOTO);
             }
         });
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_FOTO && resultCode == Activity.RESULT_OK){
+            helper.carregarFoto(caminhoFoto);
+        }
     }
 
     private void isAlterarAluno() {

@@ -17,9 +17,7 @@ import br.com.alura.agenda.modelo.Aluno;
 
 public class AlunoDAO extends SQLiteOpenHelper {
 
-
-    private static final int NEW_VERSION = 1;
-    private static final int OLD_VERSION = 1;
+    private static final int NEW_VERSION = 2;
 
     public AlunoDAO(Context context) {
         super(context, "agenda", null, NEW_VERSION);
@@ -27,15 +25,18 @@ public class AlunoDAO extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE Alunos (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, endereco TEXT, telefone TEXT, site TEXT, nota REAL);";
+        String sql = "CREATE TABLE Alunos (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, endereco TEXT, telefone TEXT, site TEXT, nota REAL, caminhoFoto TEXT);";
         db.execSQL(sql);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        String sql = "DROP TABLE IF EXISTS Alunos";
-        db.execSQL(sql);
-        onCreate(db);
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        String sql = "";
+        switch (oldVersion){
+            case 1:
+                sql = "ALTER TABLE Alunos ADD COLUMN caminhoFoto TEXT";
+                db.execSQL(sql);
+        }
     }
 
     public void inserir(Aluno aluno){
@@ -46,14 +47,20 @@ public class AlunoDAO extends SQLiteOpenHelper {
         dados.put("nota", aluno.getNota());
         dados.put("site", aluno.getSite());
         dados.put("telefone", aluno.getTelefone());
+        dados.put("caminhoFoto", aluno.getUrlFoto());
 
-        if(aluno.getId() != null){
-            String[] params = {aluno.getId().toString()};
-            db.update("Alunos", dados, "id = ?", params);
+
+        if(isAlteracao(aluno)){
+            String[] whereParams = {aluno.getId().toString()};
+            db.update("Alunos", dados, "id = ?", whereParams);
             return;
         }
 
         db.insert("Alunos", null, dados);
+    }
+
+    private boolean isAlteracao(Aluno aluno) {
+        return aluno.getId() != null;
     }
 
     public List<Aluno> buscarAlunos() {
@@ -71,6 +78,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
             aluno.setNome(c.getString(c.getColumnIndex("nome")));
             aluno.setEndereco(c.getString(c.getColumnIndex("endereco")));
             aluno.setTelefone(c.getString(c.getColumnIndex("telefone")));
+            aluno.setUrlFoto(c.getString(c.getColumnIndex("caminhoFoto")));
             alunos.add(aluno);
         }
 

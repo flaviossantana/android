@@ -1,7 +1,10 @@
 package br.com.alura.agenda.helper;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 
 import br.com.alura.agenda.FormularioActivity;
@@ -22,6 +25,7 @@ public class FormularioHelper {
     private final EditText campoSite;
     private final EditText campoTelefone;
     private final RatingBar campoNota;
+    private final ImageView campoFoto;
 
     public FormularioHelper(FormularioActivity activity) {
         this.aluno = new Aluno();
@@ -31,6 +35,7 @@ public class FormularioHelper {
         campoSite = getEditText(R.id.cadastro_site);
         campoTelefone = getEditText(R.id.cadastro_telefone);
         campoNota = getRatingBar(R.id.cadastro_nota);
+        campoFoto = activity.findViewById(R.id.cadasatro_foto);
     }
 
     public Aluno getDadosDoAluno(){
@@ -41,6 +46,7 @@ public class FormularioHelper {
         aluno.setSite(getEditTexValue(campoSite));
         aluno.setTelefone(getEditTexValue(campoTelefone));
         aluno.setId(this.aluno.getId());
+        aluno.setUrlFoto((String) campoFoto.getTag());
         return aluno;
     }
 
@@ -50,6 +56,7 @@ public class FormularioHelper {
         campoNota.setProgress(aluno.getNota().intValue());
         campoSite.setText(aluno.getSite());
         campoTelefone.setText(aluno.getTelefone());
+        carregarFoto(aluno.getUrlFoto());
         this.aluno = aluno;
     }
 
@@ -64,5 +71,19 @@ public class FormularioHelper {
 
     private RatingBar getRatingBar(int idCampo) {
         return activity.findViewById(idCampo);
+    }
+
+    public void carregarFoto(String caminhoFoto) {
+        if(isContemFoto(caminhoFoto)){
+            Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
+            Bitmap bitMapReduzido = bitmap.createScaledBitmap(bitmap, 300, 300, true);
+            campoFoto.setImageBitmap(bitMapReduzido);
+            campoFoto.setScaleType(ImageView.ScaleType.FIT_XY);
+            campoFoto.setTag(caminhoFoto);
+        }
+    }
+
+    private boolean isContemFoto(String caminhoFoto) {
+        return caminhoFoto != null;
     }
 }
