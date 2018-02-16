@@ -97,6 +97,8 @@ public class AlunoDAO extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         String[] params = {telefone};
         Cursor c = db.rawQuery(sql, params);
-        return c.getCount() > 0;
+        int count = c.getCount();
+        c.close();
+        return count > 0;
     }
 }
