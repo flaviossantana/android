@@ -3,7 +3,7 @@
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
                android:shape="oval">
-            <solid android:color="#ffe100"></solid>
+            <solid android:color="#d9c42d"/>
         </shape>
     </item>
     <item android:drawable="@drawable/ico_camera">

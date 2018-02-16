@@ -10,7 +10,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="249dp">
+            android:layout_height="248dp">
 
             <ImageView
                 android:id="@+id/cadasatro_foto"
@@ -28,6 +28,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"
+                android:elevation="7dp"
                 />
 
         </RelativeLayout>
