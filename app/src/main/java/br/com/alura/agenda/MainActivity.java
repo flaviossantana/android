@@ -93,18 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.menu_evniar_notas:
-                AlunoDAO dao = new AlunoDAO(this);
-                List<Aluno> alunos = dao.buscarAlunos();
-                dao.close();
-
-                String json = new AlunoConverter().toJson(alunos);
-                WebClient client = new WebClient();
-                String retorno = client.post(json);
-
-
-                Toast.makeText(this, "Enviando notas... ( " + retorno + " )", Toast.LENGTH_SHORT).show();
-
-                break;
+               new EnviarAlunoTask(this).execute();
+               break;
         }
 
         return super.onOptionsItemSelected(item);

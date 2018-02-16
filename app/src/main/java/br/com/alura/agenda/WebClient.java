@@ -33,7 +33,7 @@ public class WebClient extends AsyncTask<String, Void, Boolean> {
             PrintStream output = new PrintStream(connection.getOutputStream());
             output.println(json);
 
-            Scanner scanner = new Scanner(String.valueOf(connection.getOutputStream()));
+            Scanner scanner = new Scanner(connection.getInputStream());
             String resposta = scanner.next();
             return resposta;
 
