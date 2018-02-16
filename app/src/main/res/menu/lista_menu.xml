@@ -1,0 +1,10 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_evniar_notas"
+        android:title="Enviar Notas"
+        android:icon="@drawable/ic_enviar"
+        app:showAsAction="always"/>
+</menu>
