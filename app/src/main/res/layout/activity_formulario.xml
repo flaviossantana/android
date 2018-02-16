@@ -16,8 +16,8 @@
                 android:id="@+id/cadasatro_foto"
                 android:layout_width="match_parent"
                 android:layout_height="225dp"
-                android:src="@drawable/person_01"
-                android:background="#81008cff"
+                android:src="@drawable/person"
+                android:background="#00A8EC"
                  />
 
             <Button
