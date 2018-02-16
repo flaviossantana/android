@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 
+import br.com.alura.agenda.R;
 import br.com.alura.agenda.dao.AlunoDAO;
 
 /**
@@ -33,8 +34,8 @@ public class SMSReceiver extends BroadcastReceiver {
 
         if(dao.ehAluno(telefone)){
             Toast.makeText(context,"Chegou SMS de um aluno!", Toast.LENGTH_SHORT).show();
-//            MediaPlayer player = MediaPlayer.create(context, 1);
-//            player.start();
+            MediaPlayer player = MediaPlayer.create(context, R.raw.msg);
+            player.start();
         }
 
     }
