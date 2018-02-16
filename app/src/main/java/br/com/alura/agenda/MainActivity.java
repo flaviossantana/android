@@ -12,7 +12,6 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -24,6 +23,9 @@ import br.com.alura.agenda.dao.AlunoDAO;
 import br.com.alura.agenda.modelo.Aluno;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final int REQUEST_PHONE = 1;
+    public static final int REQUEST_SMS = 2;
 
     private ListView listaAlunosView;
 
@@ -43,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
                 irCadastro.putExtra("aluno", aluno);
                 startActivity(irCadastro);
 
-
                 Toast.makeText(MainActivity.this, aluno.getNome() +  " clicado com sucesso!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -58,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         registerForContextMenu(listaAlunosView);
+
+        if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED){
+            String[] permissoes = {Manifest.permission.RECEIVE_SMS};
+            ActivityCompat.requestPermissions(MainActivity.this, permissoes, REQUEST_SMS);
+        }
 
     }
 
@@ -79,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
                     String[] permissoes = {Manifest.permission.CALL_PHONE};
-                    ActivityCompat.requestPermissions(MainActivity.this, permissoes, 123);
+                    ActivityCompat.requestPermissions(MainActivity.this, permissoes, REQUEST_PHONE);
                 }else {
                     Intent irLigacao = new Intent(Intent.ACTION_CALL);
                     irLigacao.setData(Uri.parse("tel:" + aluno.getTelefone()));
