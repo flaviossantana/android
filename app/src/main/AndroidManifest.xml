@@ -23,7 +23,7 @@
         </activity>
         <activity
             android:name=".FormularioActivity"
-            android:label="@string/cadastro_aluno"></activity>
+            android:label="@string/cadastro_aluno" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -41,7 +41,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ProvaActivity"></activity>
+        <activity android:name=".ProvaActivity" />
+        <activity android:name=".ProvaTopicoActivity"></activity>
     </application>
 
 </manifest>

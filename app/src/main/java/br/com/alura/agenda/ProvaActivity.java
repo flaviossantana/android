@@ -1,5 +1,6 @@
 package br.com.alura.agenda;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -40,6 +41,11 @@ public class ProvaActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Prova prova = (Prova) parent.getItemAtPosition(position);
                 Toast.makeText(ProvaActivity.this, "Clicou " + prova.getMateria() +"!", Toast.LENGTH_SHORT).show();
+
+                Intent irTopicos = new Intent(ProvaActivity.this, ProvaTopicoActivity.class);
+                irTopicos.putExtra("prova", prova);
+                startActivity(irTopicos);
+
             }
         });
 
