@@ -37,25 +37,25 @@
             android:id="@+id/cadastro_nome"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:hint="Nome" />
+            android:hint="@string/cadastro_nome" />
 
         <EditText
             android:id="@+id/cadastro_endereco"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Endereço" />
+            android:hint="@string/cadastro_endereco" />
 
         <EditText
             android:id="@+id/cadastro_telefone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Telefone" />
+            android:hint="@string/cadastro_telefone" />
 
         <EditText
             android:id="@+id/cadastro_site"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Site" />
+            android:hint="@string/cadastro_site" />
 
         <RatingBar
             android:id="@+id/cadastro_nota"

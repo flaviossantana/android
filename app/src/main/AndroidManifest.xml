@@ -22,7 +22,7 @@
         </activity>
         <activity
             android:name=".FormularioActivity"
-            android:label="Cadastro de Aluno">
+            android:label="@string/cadastro_aluno">
         </activity>
 
         <provider
