@@ -95,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent irBaixarProva = new Intent(this, ProvasActivity.class);
                 startActivity(irBaixarProva);
                 break;
+            case R.id.menu_formulario_ok:
+                break;
         }
 
         return super.onOptionsItemSelected(item);
