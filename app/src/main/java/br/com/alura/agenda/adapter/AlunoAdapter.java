@@ -52,9 +52,9 @@ public class AlunoAdapter extends BaseAdapter {
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View view = convertView;
-        if(view == null){
+//        if(view == null){
             view = inflater.inflate(R.layout.list_item, parent, false);
-        }
+//        }
 
         TextView campoNome = view.findViewById(R.id.item_nome);
         campoNome.setText(aluno.getNome());

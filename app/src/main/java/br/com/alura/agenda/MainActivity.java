@@ -18,13 +18,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.List;
 
 import br.com.alura.agenda.adapter.AlunoAdapter;
-import br.com.alura.agenda.converter.AlunoConverter;
 import br.com.alura.agenda.dao.AlunoDAO;
 import br.com.alura.agenda.modelo.Aluno;
 
