@@ -1,11 +1,12 @@
 package br.com.alura.agenda;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Adapter;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -16,12 +17,17 @@ import java.util.List;
 
 import br.com.alura.agenda.modelo.Prova;
 
-public class ProvaActivity extends AppCompatActivity {
+/**
+ * Created by flavio-ss on 19/02/2018.
+ */
 
+public class ListaProvaFragment extends Fragment {
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_prova);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_provas, container, false);
 
         List<String> topicosPortugues = Arrays.asList("Sujeito", "Objeto Direto", "Objeto Indireto");
         Prova provaPortugues = new Prova("Portugues", "25/01/2018", topicosPortugues);
@@ -31,24 +37,27 @@ public class ProvaActivity extends AppCompatActivity {
 
         final List<Prova> provas = Arrays.asList(provaPortugues, provaMatematica);
 
-        ArrayAdapter<Prova> adapter = new ArrayAdapter<Prova>(this, android.R.layout.simple_expandable_list_item_1, provas);
+        ArrayAdapter<Prova> adapter = new ArrayAdapter<Prova>(getContext(), android.R.layout.simple_expandable_list_item_1, provas);
 
-        ListView lista =  findViewById(R.id.prova_lista);
+        ListView lista =  view.findViewById(R.id.prova_lista);
         lista.setAdapter(adapter);
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Prova prova = (Prova) parent.getItemAtPosition(position);
-                Toast.makeText(ProvaActivity.this, "Clicou " + prova.getMateria() +"!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Clicou " + prova.getMateria() +"!", Toast.LENGTH_SHORT).show();
 
-                Intent irTopicos = new Intent(ProvaActivity.this, ProvaTopicoActivity.class);
+                Intent irTopicos = new Intent(getContext(), ProvaTopicoActivity.class);
                 irTopicos.putExtra("prova", prova);
                 startActivity(irTopicos);
 
             }
         });
 
-    }
 
+
+
+        return view;
+    }
 }

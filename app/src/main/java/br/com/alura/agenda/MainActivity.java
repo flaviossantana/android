@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                new EnviarAlunoTask(this).execute();
                break;
             case R.id.menu_receber_provas:
-                Intent irBaixarProva = new Intent(this, ProvaActivity.class);
+                Intent irBaixarProva = new Intent(this, ProvasActivity.class);
                 startActivity(irBaixarProva);
                 break;
         }
