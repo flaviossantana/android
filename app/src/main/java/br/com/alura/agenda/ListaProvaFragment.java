@@ -1,11 +1,8 @@
 package br.com.alura.agenda;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,12 +47,8 @@ public class ListaProvaFragment extends Fragment {
                 Prova prova = (Prova) parent.getItemAtPosition(position);
                 Toast.makeText(getContext(), "Clicou " + prova.getMateria() +"!", Toast.LENGTH_SHORT).show();
 
-                FragmentManager manager = getFragmentManager();
-                FragmentTransaction tx = manager.beginTransaction();
-
-                tx.replace(isLand() ? R.id.frame_secundario : R.id.frame_principal, new DetalhesProvaFragment());
-
-                tx.commit();
+                ProvasActivity provasActivity = (ProvasActivity) getActivity();
+                provasActivity.apresentaProva(prova);
 
             }
         });
