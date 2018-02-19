@@ -7,4 +7,10 @@
         android:title="Enviar Notas"
         android:icon="@drawable/ic_enviar"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_receber_provas"
+        android:title="Receber Provas"
+        android:icon="@drawable/ic_receber"
+        app:showAsAction="always"/>
 </menu>

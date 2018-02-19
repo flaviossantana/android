@@ -91,6 +91,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_evniar_notas:
                new EnviarAlunoTask(this).execute();
                break;
+            case R.id.menu_receber_provas:
+                Intent irBaixarProva = new Intent(this, ProvaActivity.class);
+                startActivity(irBaixarProva);
+                break;
         }
 
         return super.onOptionsItemSelected(item);
