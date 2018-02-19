@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/item_foto"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:src="@drawable/person"
         android:background="#00A8EC"
         />
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="FLAVIO SOUSA SANTANA"
-            android:textSize="28sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:paddingLeft="10dp"
             />
@@ -33,10 +33,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="62 981232603"
-            android:textSize="22sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:paddingLeft="10dp"
             android:paddingTop="8dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="right"
+        android:layout_marginRight="8dp">
+
+        <TextView
+            android:id="@+id/item_endereco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:paddingTop="5dp"
+            />
+
+        <TextView
+            android:id="@+id/item_site"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:paddingTop="8dp"
+            />
 
     </LinearLayout>
 

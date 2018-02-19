@@ -71,6 +71,16 @@ public class AlunoAdapter extends BaseAdapter {
             campoFoto.setScaleType(ImageView.ScaleType.FIT_XY);
         }
 
+        //TODO : SOMENTE PARA MODO PAISAGEM
+        TextView campoEndereco = view.findViewById(R.id.item_endereco);
+        if(campoEndereco != null){
+            campoEndereco.setText(aluno.getEndereco());
+        }
+
+        TextView campoSite = view.findViewById(R.id.item_site);
+        if(campoSite != null){
+            campoSite.setText(aluno.getSite());
+        }
 
         return view;
     }
