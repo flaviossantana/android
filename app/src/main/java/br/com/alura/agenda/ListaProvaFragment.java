@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,13 +50,20 @@ public class ListaProvaFragment extends Fragment {
                 Prova prova = (Prova) parent.getItemAtPosition(position);
                 Toast.makeText(getContext(), "Clicou " + prova.getMateria() +"!", Toast.LENGTH_SHORT).show();
 
-                Intent irTopicos = new Intent(getContext(), ProvaTopicoActivity.class);
-                irTopicos.putExtra("prova", prova);
-                startActivity(irTopicos);
+                FragmentManager manager = getFragmentManager();
+                FragmentTransaction tx = manager.beginTransaction();
+
+                tx.replace(isLand() ? R.id.frame_secundario : R.id.frame_principal, new DetalhesProvaFragment());
+
+                tx.commit();
 
             }
         });
 
         return view;
+    }
+
+    private boolean isLand() {
+        return getResources().getBoolean(R.bool.isModoPaisagem);
     }
 }
