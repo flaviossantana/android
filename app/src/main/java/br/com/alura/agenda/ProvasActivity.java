@@ -10,13 +10,22 @@ public class ProvasActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_prova);
+        setContentView(R.layout.activity_provas);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction tx = fragmentManager.beginTransaction();
         tx.replace(R.id.frame_principal, new ListaProvaFragment());
+
+        if(isLand()){
+            tx.replace(R.id.frame_secundario, new DetalhesProvaFragment());
+        }
+
         tx.commit();
 
+    }
+
+    private boolean isLand() {
+        return getResources().getBoolean(R.bool.isModoPaisagem);
     }
 
 }
