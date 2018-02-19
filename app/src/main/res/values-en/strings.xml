@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Contacts</string>
+    <string name="cadastro_aluno">Student Registration</string>
+    <string name="cadastro_nome">Name</string>
+    <string name="cadastro_endereco">Address</string>
+    <string name="cadastro_telefone">Phone</string>
+    <string name="cadastro_site">Site</string>
+</resources>
