@@ -55,9 +55,6 @@ public class ListaProvaFragment extends Fragment {
             }
         });
 
-
-
-
         return view;
     }
 }
