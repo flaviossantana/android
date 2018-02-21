@@ -17,7 +17,7 @@
     <item
         android:id="@+id/menu_google_maps"
         android:title="Acessar maps"
-        android:icon="@drawable/ic_formulario_ok"
+        android:icon="@drawable/ic_mapa"
         app:showAsAction="always"/>
 
 </menu>

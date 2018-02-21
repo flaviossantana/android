@@ -5,4 +5,9 @@
     <string name="cadastro_endereco">Address</string>
     <string name="cadastro_telefone">Phone</string>
     <string name="cadastro_site">Site</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">Map</string>
+
+
 </resources>
