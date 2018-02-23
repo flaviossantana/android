@@ -16,7 +16,7 @@ public class MapaActivity extends AppCompatActivity {
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction tx = manager.beginTransaction();
-        tx.replace(R.id.mapa_frame, new SupportMapFragment());
+        tx.replace(R.id.mapa_frame, new MapaFragment());
         tx.commit();
 
     }
