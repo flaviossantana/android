@@ -1,0 +1,3 @@
+/*C11*/SET SCHEMA PUBLIC
+INSERT INTO ALUNO VALUES('951f9655-cc8a-40f2-9776-35a63aa900cb',NULL,0,'Av. Anhanguera, 10790 - Aeroviario, Goi\u00e2nia - GO, 74435-090',0,'2018-02-23 20:39:20.404000','Flavio Santana',10.0E0,'www.google.com','62981233602')
+COMMIT
