@@ -2,6 +2,7 @@ package br.com.alura.agenda;
 
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.View;
 
@@ -26,16 +27,15 @@ import br.com.alura.agenda.modelo.Aluno;
 public class MapaFragment extends SupportMapFragment implements OnMapReadyCallback {
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         getMapAsync(this);
-
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        LatLng coordenada = getCoordenada("ecovillagio castelo branco");
+        LatLng coordenada = getCoordenada("R. Humaitá, s/n - São Francisco, Goiânia - GO");
 
         if(coordenada != null){
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(coordenada, 17);
@@ -60,12 +60,12 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
 
     }
 
-    private LatLng getCoordenada(String endereco) {
+        private LatLng getCoordenada(String endereco) {
         try {
             Geocoder geocoder = new Geocoder(getContext());
             List<Address> addresses = geocoder.getFromLocationName(endereco, 1);
 
-            if(addresses.isEmpty()){
+            if(!addresses.isEmpty()){
                 return new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
 
             }
