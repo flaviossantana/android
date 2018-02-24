@@ -36,7 +36,7 @@ public class EnviarAlunoTask extends AsyncTask<Object, Object, String> {
         List<Aluno> alunos = dao.buscarAlunos();
         dao.close();
 
-        String json = new AlunoConverter().toJson(alunos);
+        String json = new AlunoConverter().toListJson(alunos);
         WebClient client = new WebClient();
         String resposta = client.post(json);
 

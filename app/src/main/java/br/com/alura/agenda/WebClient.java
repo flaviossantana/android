@@ -9,6 +9,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
+import br.com.alura.agenda.modelo.Aluno;
+
 /**
  * Created by flavio-ss on 16/02/2018.
  */
@@ -47,4 +49,7 @@ public class WebClient extends AsyncTask<String, Void, Boolean> {
     }
 
 
+    public void inserir(Aluno aluno) {
+
+    }
 }

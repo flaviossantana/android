@@ -14,7 +14,7 @@ import br.com.alura.agenda.modelo.Aluno;
 
 public class AlunoConverter {
 
-    public String toJson(List<Aluno> alunos)  {
+    public String toListJson(List<Aluno> alunos)  {
 
         JSONStringer json = new JSONStringer();
 
@@ -41,4 +41,22 @@ public class AlunoConverter {
         return json.toString();
     }
 
+    public String alunoToJson(Aluno aluno) {
+
+        JSONStringer json = new JSONStringer();
+
+        try {
+            json.object().key("nome").value(aluno.getNome())
+                         .key("endereco").value(aluno.getEndereco())
+                         .key("site").value(aluno.getSite())
+                         .key("telefone").value(aluno.getTelefone())
+                         .key("nota").value(aluno.getNota())
+                         .endObject();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return json.toString();
+    }
 }

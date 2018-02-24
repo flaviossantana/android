@@ -83,6 +83,8 @@ public class FormularioActivity extends AppCompatActivity {
                 dao.inserir(aluno);
                 dao.close();
 
+                new InsereAlunoTask(aluno);
+
                 Toast.makeText(FormularioActivity.this, aluno.getNome() +  " operação realizada com sucesso!", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
