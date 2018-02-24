@@ -20,8 +20,8 @@ class InsereAlunoTask extends AsyncTask{
     @Override
     protected Object doInBackground(Object[] objects) {
 
-        new AlunoConverter().alunoToJson(aluno);
-        new WebClient().inserir(aluno);
+        String json = new AlunoConverter().alunoToJson(aluno);
+        new WebClient().inserir(json);
         return null;
     }
 
