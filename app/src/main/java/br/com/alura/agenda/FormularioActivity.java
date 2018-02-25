@@ -88,8 +88,6 @@ public class FormularioActivity extends AppCompatActivity {
                 dao.inserir(aluno);
                 dao.close();
 
-//                new InsereAlunoTask(aluno).execute();
-
                 Call<Void> call = new RetrofitBuilder().getAlunoService().insere(aluno);
 
                 call.enqueue(new Callback<Void>() {

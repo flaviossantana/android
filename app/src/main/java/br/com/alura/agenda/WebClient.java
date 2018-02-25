@@ -30,12 +30,6 @@ public class WebClient extends AsyncTask<String, Void, Boolean> {
         return realizaConexao(WWW_CAELUM_COM_BR_MOBILE, json);
     }
 
-    public void inserir(String json) {
-        realizaConexao(SERVIDOR_ALUNO_FORM, json );
-
-
-    }
-
     @Nullable
     private String realizaConexao(String endereco, String json) {
         try {
