@@ -1,5 +1,7 @@
 package br.com.alura.agenda.modelo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
 /**
@@ -8,13 +10,21 @@ import java.io.Serializable;
 
 public class Aluno implements Serializable{
 
+    @JsonProperty("idCliente")
     private Long id;
+
     private String nome;
+
     private String endereco;
+
     private String telefone;
+
     private String site;
+
     private Double nota;
+
     private String urlFoto;
+
 
     public Long getId() {
         return id;

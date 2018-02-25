@@ -56,7 +56,8 @@ public class AlunoDAO extends SQLiteOpenHelper {
             return;
         }
 
-        db.insert("Alunos", null, dados);
+        long idAluno = db.insert("Alunos", null, dados);
+        aluno.setId(idAluno);
     }
 
     private boolean isAlteracao(Aluno aluno) {
