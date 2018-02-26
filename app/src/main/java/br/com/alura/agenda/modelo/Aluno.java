@@ -10,8 +10,8 @@ import java.io.Serializable;
 
 public class Aluno implements Serializable{
 
-    @JsonProperty("idCliente")
-    private Long id;
+//    @JsonProperty("idCliente")
+    private String id;
 
     private String nome;
 
@@ -26,11 +26,11 @@ public class Aluno implements Serializable{
     private String urlFoto;
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

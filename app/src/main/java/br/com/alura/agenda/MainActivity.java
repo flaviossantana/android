@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -179,6 +180,10 @@ public class MainActivity extends AppCompatActivity {
         AlunoDAO dao = new AlunoDAO(this);
         List<Aluno> alunos = dao.buscarAlunos();
         dao.close();
+
+        for (Aluno aluno: alunos) {
+            Log.i("## ID ALUNO: ", String.valueOf(aluno.getId()));
+        }
 
         AlunoAdapter alunoAdapter = new AlunoAdapter(this, alunos);
         listaAlunosView.setAdapter(alunoAdapter);
