@@ -174,10 +174,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
 
-                deletarAluno(aluno);
-                buscarAlunos();
+                Call<Void> call = new RetrofitBuilder().getAlunoService().delete(aluno.getId());
 
-                Toast.makeText(MainActivity.this, aluno.getNome() +  " deletado com sucesso!", Toast.LENGTH_SHORT).show();
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        deletarAluno(aluno);
+                        buscarAlunos();
+                        Toast.makeText(MainActivity.this, aluno.getNome() +  " deletado com sucesso!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(MainActivity.this, "Não foi possivel deletar o aluno "+ aluno.getNome() , Toast.LENGTH_SHORT).show();
+                    }
+                });
+
                 return false;
             }
         });
