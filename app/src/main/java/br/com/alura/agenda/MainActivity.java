@@ -73,12 +73,11 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(MainActivity.this, permissoes, REQUEST_SMS);
         }
 
+        sincronizarAlunos();
+
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
+    private void sincronizarAlunos() {
         Call<AlunoSync> call = new RetrofitBuilder().getAlunoService().lista();
         call.enqueue(new Callback<AlunoSync>() {
             @Override
@@ -94,9 +93,12 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("onFailure: ", t.getMessage());
             }
         });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         buscarAlunos();
-
     }
 
     @Override
