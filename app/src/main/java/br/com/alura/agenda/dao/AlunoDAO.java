@@ -27,7 +27,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE Alunos (id INTEGER PRIMARY KEY, nome TEXT NOT NULL, endereco TEXT, telefone TEXT, site TEXT, nota REAL, caminhoFoto TEXT);";
+        String sql = "CREATE TABLE Alunos (id CHAR(36) PRIMARY KEY, nome TEXT NOT NULL, endereco TEXT, telefone TEXT, site TEXT, nota REAL, caminhoFoto TEXT);";
         db.execSQL(sql);
     }
 
@@ -36,26 +36,6 @@ public class AlunoDAO extends SQLiteOpenHelper {
         String sql = "";
         switch (oldVersion){
             case 1:
-                sql = "ALTER TABLE Alunos ADD COLUMN caminhoFoto TEXT";
-                db.execSQL(sql);
-            case 2:
-                sql = "CREATE TABLE Alunos_novo (id CHAR(36) PRIMARY KEY, nome TEXT NOT NULL, endereco TEXT, telefone TEXT, site TEXT, nota REAL, caminhoFoto TEXT);";
-                db.execSQL(sql);
-                sql = "INSERT INTO Alunos_novo (id, nome, endereco, telefone, site, nota, caminhoFoto) SELECT id, nome, endereco, telefone, site, nota, caminhoFoto FROM Alunos";
-                db.execSQL(sql);
-                sql = "DROP TABLE Alunos";
-                db.execSQL(sql);
-                sql = "ALTER TABLE Alunos_novo RENAME TO Alunos";
-                db.execSQL(sql);
-            case 3:
-                sql = "SELECT * FROM Alunos";
-                Cursor cursor = db.rawQuery(sql, null);
-                List<Aluno> alunos = populaAlunos(cursor);
-
-                sql = "UPDATE Alunos SET id=? WHERE id=?";
-                for (Aluno aluno : alunos) {
-                    db.execSQL(sql, new String[] {geraUUID(), aluno.getId()});
-                }
 
         }
     }
