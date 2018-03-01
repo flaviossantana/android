@@ -1,6 +1,7 @@
 package br.com.alura.agenda.retrofit;
 
 import br.com.alura.agenda.service.AlunoService;
+import br.com.alura.agenda.service.DispositivoService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -33,4 +34,7 @@ public class RetrofitBuilder {
         return retrofit.create(AlunoService.class);
     }
 
+    public DispositivoService getDispositivoService() {
+        return retrofit.create(DispositivoService.class);
+    }
 }
