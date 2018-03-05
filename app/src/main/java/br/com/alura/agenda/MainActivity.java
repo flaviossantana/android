@@ -20,11 +20,14 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import br.com.alura.agenda.adapter.AlunoAdapter;
 import br.com.alura.agenda.dao.AlunoDAO;
 import br.com.alura.agenda.dto.AlunoSync;
+import br.com.alura.agenda.event.AtualizarListaAlunoEvent;
 import br.com.alura.agenda.modelo.Aluno;
 import br.com.alura.agenda.retrofit.RetrofitBuilder;
 import retrofit2.Call;
@@ -54,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        EventBus eventBus = EventBus.getDefault();
+        eventBus.register(this);
 
         listaAlunosView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -106,6 +112,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("onFailure: ", t.getMessage());
             }
         });
+    }
+
+    public void atualizarListaAlunoEvent(AtualizarListaAlunoEvent event){
+        buscarAlunos();
     }
 
     @Override
