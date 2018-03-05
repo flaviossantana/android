@@ -21,6 +21,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -114,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void atualizarListaAlunoEvent(AtualizarListaAlunoEvent event){
         buscarAlunos();
     }
