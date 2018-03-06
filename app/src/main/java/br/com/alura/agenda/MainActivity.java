@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView listaAlunosView;
     private SwipeRefreshLayout swipe;
 
+    private EventBus eventBus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        EventBus eventBus = EventBus.getDefault();
-        eventBus.register(this);
+        eventBus = EventBus.getDefault();
+
 
         listaAlunosView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -124,7 +126,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        eventBus.register(this);
         buscarAlunos();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        eventBus.unregister(this);
     }
 
     @Override
