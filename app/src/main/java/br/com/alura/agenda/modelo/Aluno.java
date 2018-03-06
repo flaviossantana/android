@@ -26,6 +26,8 @@ public class Aluno implements Serializable{
 
     private String urlFoto;
 
+    private int desativado;
+
 
     public String getId() {
         return id;
@@ -83,8 +85,20 @@ public class Aluno implements Serializable{
         this.urlFoto = urlFoto;
     }
 
+    public int getDesativado() {
+        return desativado;
+    }
+
+    public void setDesativado(int desativado) {
+        this.desativado = desativado;
+    }
+
     @Override
     public String toString() {
         return nome;
+    }
+
+    public boolean isDesativado() {
+        return desativado == 1;
     }
 }

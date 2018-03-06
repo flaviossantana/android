@@ -56,6 +56,11 @@ public class AlunoDAO extends SQLiteOpenHelper {
         dados.put("caminhoFoto", aluno.getUrlFoto());
 
 
+        if(aluno.isDesativado()){
+            deletar(aluno);
+            return;
+        }
+
         if(isAlteracao(aluno)){
             String[] whereParams = {aluno.getId().toString()};
             db.update("Alunos", dados, "id = ?", whereParams);
