@@ -28,7 +28,6 @@ import java.util.List;
 
 import br.com.alura.agenda.adapter.AlunoAdapter;
 import br.com.alura.agenda.dao.AlunoDAO;
-import br.com.alura.agenda.dto.AlunoSync;
 import br.com.alura.agenda.event.AtualizarListaAlunoEvent;
 import br.com.alura.agenda.modelo.Aluno;
 import br.com.alura.agenda.retrofit.RetrofitBuilder;
@@ -40,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int REQUEST_PHONE = 1;
     public static final int REQUEST_SMS = 2;
+    private final br.com.alura.agenda.sync.AlunoSync alunoSync = new br.com.alura.agenda.sync.AlunoSync(this);
 
     private ListView listaAlunosView;
     private SwipeRefreshLayout swipe;
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                sincronizarAlunos();
+                alunoSync.sincronizarAlunos();
             }
         });
 
@@ -94,32 +94,15 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(MainActivity.this, permissoes, REQUEST_SMS);
         }
 
-        sincronizarAlunos();
+        alunoSync.sincronizarAlunos();
 
-    }
-
-    private void sincronizarAlunos() {
-        Call<AlunoSync> call = new RetrofitBuilder().getAlunoService().lista();
-        call.enqueue(new Callback<AlunoSync>() {
-            @Override
-            public void onResponse(Call<AlunoSync> call, Response<AlunoSync> response) {
-                AlunoSync alunoSync = response.body();
-                AlunoDAO dao = new AlunoDAO(MainActivity.this);
-                dao.inserir(alunoSync.getAlunos());
-                buscarAlunos();
-                swipe.setRefreshing(false);
-            }
-
-            @Override
-            public void onFailure(Call<AlunoSync> call, Throwable t) {
-                swipe.setRefreshing(false);
-                Log.e("onFailure: ", t.getMessage());
-            }
-        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void atualizarListaAlunoEvent(AtualizarListaAlunoEvent event){
+        if(swipe.isRefreshing()){
+            swipe.setRefreshing(false);
+        }
         buscarAlunos();
     }
 
