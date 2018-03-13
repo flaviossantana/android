@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                alunoSync.sincronizarAlunos();
+                alunoSync.buscarTodos();
             }
         });
 
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(MainActivity.this, permissoes, REQUEST_SMS);
         }
 
-        alunoSync.sincronizarAlunos();
+        alunoSync.buscarTodos();
 
     }
 

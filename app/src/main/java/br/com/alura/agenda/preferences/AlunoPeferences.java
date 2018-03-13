@@ -33,4 +33,7 @@ public class AlunoPeferences {
         return context.getSharedPreferences(ALUNO_PEFERENCES, context.MODE_PRIVATE);
     }
 
+    public boolean temVersao() {
+        return !getVersao().isEmpty();
+    }
 }

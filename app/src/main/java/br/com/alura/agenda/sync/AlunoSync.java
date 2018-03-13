@@ -1,6 +1,7 @@
 package br.com.alura.agenda.sync;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
@@ -17,14 +18,35 @@ public class AlunoSync {
 
     private final Context context;
     private EventBus bus = EventBus.getDefault();
+    private AlunoPeferences alunoPeferences;
 
     public AlunoSync(Context context) {
         this.context = context;
+        alunoPeferences = new AlunoPeferences(context);
     }
 
-    public void sincronizarAlunos() {
+    public void buscarTodos(){
+        if(alunoPeferences.temVersao()){
+            buscarNovos();
+        }else {
+            sincronizarAlunos();
+        }
+    }
+
+    private void buscarNovos(){
+        Call<br.com.alura.agenda.dto.AlunoSync> call = new RetrofitBuilder().getAlunoService().novos(alunoPeferences.getVersao());
+        call.enqueue(buscaAlunoCallback());
+
+    }
+
+    private void sincronizarAlunos() {
         Call<br.com.alura.agenda.dto.AlunoSync> call = new RetrofitBuilder().getAlunoService().lista();
-        call.enqueue(new Callback<br.com.alura.agenda.dto.AlunoSync>() {
+        call.enqueue(buscaAlunoCallback());
+    }
+
+    @NonNull
+    private Callback<br.com.alura.agenda.dto.AlunoSync> buscaAlunoCallback() {
+        return new Callback<br.com.alura.agenda.dto.AlunoSync>() {
             @Override
             public void onResponse(Call<br.com.alura.agenda.dto.AlunoSync> call, Response<br.com.alura.agenda.dto.AlunoSync> response) {
                 br.com.alura.agenda.dto.AlunoSync alunoSync = response.body();
@@ -33,7 +55,6 @@ public class AlunoSync {
 
                 String versao = alunoSync.getMomentoDaUltimaModificacao();
 
-                AlunoPeferences alunoPeferences = new AlunoPeferences(context);
                 alunoPeferences.salvarVersao(versao);
 
                 Log.e("#######VERSÃO: ", alunoPeferences.getVersao());
@@ -46,6 +67,6 @@ public class AlunoSync {
                 bus.post(new AtualizarListaAlunoEvent());
                 Log.e("onFailure: ", t.getMessage());
             }
-        });
+        };
     }
 }
