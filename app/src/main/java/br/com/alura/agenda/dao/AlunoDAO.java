@@ -47,18 +47,17 @@ public class AlunoDAO extends SQLiteOpenHelper {
 
     public void sincronizar(List<Aluno> alunos) {
         for (Aluno aluno: alunos) {
-            sincronizar(aluno);
+            aluno.sincroniza();
+            salvar(aluno);
         }
     }
 
-    public void sincronizar(Aluno aluno){
+    public void salvar(Aluno aluno){
 
         if(aluno.isDesativado()){
             deletar(aluno);
             return;
         }
-
-        aluno.sincroniza();
 
         ContentValues dados = new ContentValues();
         dados.put("nome", aluno.getNome());

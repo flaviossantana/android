@@ -82,7 +82,7 @@ public class FormularioActivity extends AppCompatActivity {
 
                 Aluno aluno = helper.getDadosDoAluno();
                 AlunoDAO dao = new AlunoDAO(this);
-                dao.sincronizar(aluno);
+                dao.salvar(aluno);
                 dao.close();
 
                 Call<Void> call = new RetrofitBuilder().getAlunoService().insere(aluno);
