@@ -28,6 +28,8 @@ public class Aluno implements Serializable{
 
     private int desativado;
 
+    private int sincronizado;
+
 
     public String getId() {
         return id;
@@ -100,5 +102,13 @@ public class Aluno implements Serializable{
 
     public boolean isDesativado() {
         return desativado == 1;
+    }
+
+    public int getSincronizado() {
+        return sincronizado;
+    }
+
+    public void setSincronizado(int sincronizado) {
+        this.sincronizado = sincronizado;
     }
 }

@@ -6,11 +6,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import br.com.alura.agenda.dao.upgrade.Versao_3;
 import br.com.alura.agenda.modelo.Aluno;
 
 /**
@@ -19,7 +21,7 @@ import br.com.alura.agenda.modelo.Aluno;
 
 public class AlunoDAO extends SQLiteOpenHelper {
 
-    private static final int NEW_VERSION = 3;
+    private static final int NEW_VERSION = 4;
 
     public AlunoDAO(Context context) {
         super(context, "agenda", null, NEW_VERSION);
@@ -27,7 +29,8 @@ public class AlunoDAO extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE Alunos (id CHAR(36) PRIMARY KEY, nome TEXT NOT NULL, endereco TEXT, telefone TEXT, site TEXT, nota REAL, caminhoFoto TEXT);";
+        Log.i("#### onCreate: ", "HUMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+        String sql = "CREATE TABLE Alunos (id CHAR(36) PRIMARY KEY, nome TEXT NOT NULL, endereco TEXT, telefone TEXT, site TEXT, nota REAL, caminhoFoto TEXT, sincronizado INT DEFAULT 0);";
         db.execSQL(sql);
     }
 
@@ -35,8 +38,8 @@ public class AlunoDAO extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String sql = "";
         switch (oldVersion){
-            case 1:
-
+            case 3:
+                Versao_3.upgrade(db);
         }
     }
 
@@ -54,6 +57,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
         dados.put("site", aluno.getSite());
         dados.put("telefone", aluno.getTelefone());
         dados.put("caminhoFoto", aluno.getUrlFoto());
+        dados.put("sincronizado", aluno.getSincronizado());
 
 
         if(aluno.isDesativado()){
@@ -107,6 +111,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
             aluno.setEndereco(c.getString(c.getColumnIndex("endereco")));
             aluno.setTelefone(c.getString(c.getColumnIndex("telefone")));
             aluno.setUrlFoto(c.getString(c.getColumnIndex("caminhoFoto")));
+            aluno.setSincronizado(c.getInt(c.getColumnIndex("sincronizado")));
             alunos.add(aluno);
         }
         return alunos;
