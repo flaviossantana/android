@@ -6,8 +6,12 @@ import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.List;
+
 import br.com.alura.agenda.dao.AlunoDAO;
+import br.com.alura.agenda.dto.AlunoSyncDTO;
 import br.com.alura.agenda.event.AtualizarListaAlunoEvent;
+import br.com.alura.agenda.modelo.Aluno;
 import br.com.alura.agenda.preferences.AlunoPeferences;
 import br.com.alura.agenda.retrofit.RetrofitBuilder;
 import retrofit2.Call;
@@ -25,6 +29,26 @@ public class AlunoSync {
         alunoPeferences = new AlunoPeferences(context);
     }
 
+    public void sincronizaInternos(){
+        final AlunoDAO dao = new AlunoDAO(context);
+        List<Aluno> alunos = dao.naoSincronizados();
+        Call<AlunoSyncDTO> call = new RetrofitBuilder().getAlunoService().atualizar(alunos);
+        call.enqueue(new Callback<AlunoSyncDTO>() {
+            @Override
+            public void onResponse(Call<AlunoSyncDTO> call, Response<AlunoSyncDTO> response) {
+                AlunoSyncDTO alunoSync = response.body();
+                dao.sincronizar(alunoSync.getAlunos());
+                dao.close();
+            }
+
+            @Override
+            public void onFailure(Call<AlunoSyncDTO> call, Throwable t) {
+
+            }
+        });
+
+    }
+
     public void buscarTodos(){
         if(alunoPeferences.temVersao()){
             buscarNovos();
@@ -34,26 +58,26 @@ public class AlunoSync {
     }
 
     private void buscarNovos(){
-        Call<br.com.alura.agenda.dto.AlunoSync> call = new RetrofitBuilder().getAlunoService().novos(alunoPeferences.getVersao());
+        Call<AlunoSyncDTO> call = new RetrofitBuilder().getAlunoService().novos(alunoPeferences.getVersao());
         call.enqueue(buscaAlunoCallback());
 
     }
 
     private void sincronizarAlunos() {
-        Call<br.com.alura.agenda.dto.AlunoSync> call = new RetrofitBuilder().getAlunoService().lista();
+        Call<AlunoSyncDTO> call = new RetrofitBuilder().getAlunoService().lista();
         call.enqueue(buscaAlunoCallback());
     }
 
     @NonNull
-    private Callback<br.com.alura.agenda.dto.AlunoSync> buscaAlunoCallback() {
-        return new Callback<br.com.alura.agenda.dto.AlunoSync>() {
+    private Callback<AlunoSyncDTO> buscaAlunoCallback() {
+        return new Callback<AlunoSyncDTO>() {
             @Override
-            public void onResponse(Call<br.com.alura.agenda.dto.AlunoSync> call, Response<br.com.alura.agenda.dto.AlunoSync> response) {
-                br.com.alura.agenda.dto.AlunoSync alunoSync = response.body();
+            public void onResponse(Call<AlunoSyncDTO> call, Response<AlunoSyncDTO> response) {
+                AlunoSyncDTO alunoSyncDTO = response.body();
                 AlunoDAO dao = new AlunoDAO(context);
-                dao.inserir(alunoSync.getAlunos());
+                dao.sincronizar(alunoSyncDTO.getAlunos());
 
-                String versao = alunoSync.getMomentoDaUltimaModificacao();
+                String versao = alunoSyncDTO.getMomentoDaUltimaModificacao();
 
                 alunoPeferences.salvarVersao(versao);
 
@@ -63,7 +87,7 @@ public class AlunoSync {
             }
 
             @Override
-            public void onFailure(Call<br.com.alura.agenda.dto.AlunoSync> call, Throwable t) {
+            public void onFailure(Call<AlunoSyncDTO> call, Throwable t) {
                 bus.post(new AtualizarListaAlunoEvent());
                 Log.e("onFailure: ", t.getMessage());
             }

@@ -11,7 +11,7 @@ import br.com.alura.agenda.modelo.Aluno;
  * Created by f1avi on 26/02/2018.
  */
 
-public class AlunoSync {
+public class AlunoSyncDTO {
 
     private List<Aluno> alunos;
     private String momentoDaUltimaModificacao;

@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import br.com.alura.agenda.dao.AlunoDAO;
-import br.com.alura.agenda.dto.AlunoSync;
+import br.com.alura.agenda.dto.AlunoSyncDTO;
 import br.com.alura.agenda.event.AtualizarListaAlunoEvent;
 
 /**
@@ -35,9 +35,9 @@ public class AgendaMessagingService extends FirebaseMessagingService {
         if(mensagem.containsKey(ALUNO_SYNC_KEY)){
             String json = mensagem.get(ALUNO_SYNC_KEY);
             try {
-                AlunoSync alunoSync = new ObjectMapper().readValue(json, AlunoSync.class);
+                AlunoSyncDTO alunoSyncDTO = new ObjectMapper().readValue(json, AlunoSyncDTO.class);
                 AlunoDAO dao = new AlunoDAO(this);
-                dao.inserir(alunoSync.getAlunos());
+                dao.sincronizar(alunoSyncDTO.getAlunos());
                 dao.close();
 
                 EventBus eventBus = EventBus.getDefault();

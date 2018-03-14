@@ -1,4 +1,4 @@
-package br.com.alura.agenda.dao;
+    package br.com.alura.agenda.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,6 @@ public class AlunoDAO extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.i("#### onCreate: ", "HUMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
         String sql = "CREATE TABLE Alunos (id CHAR(36) PRIMARY KEY, nome TEXT NOT NULL, endereco TEXT, telefone TEXT, site TEXT, nota REAL, caminhoFoto TEXT, sincronizado INT DEFAULT 0);";
         db.execSQL(sql);
     }
@@ -47,9 +45,21 @@ public class AlunoDAO extends SQLiteOpenHelper {
         return String.valueOf(UUID.randomUUID());
     }
 
-    public void inserir(Aluno aluno){
+    public void sincronizar(List<Aluno> alunos) {
+        for (Aluno aluno: alunos) {
+            sincronizar(aluno);
+        }
+    }
 
-        SQLiteDatabase db = getWritableDatabase();
+    public void sincronizar(Aluno aluno){
+
+        if(aluno.isDesativado()){
+            deletar(aluno);
+            return;
+        }
+
+        aluno.sincroniza();
+
         ContentValues dados = new ContentValues();
         dados.put("nome", aluno.getNome());
         dados.put("endereco", aluno.getEndereco());
@@ -59,11 +69,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
         dados.put("caminhoFoto", aluno.getUrlFoto());
         dados.put("sincronizado", aluno.getSincronizado());
 
-
-        if(aluno.isDesativado()){
-            deletar(aluno);
-            return;
-        }
+        SQLiteDatabase db = getWritableDatabase();
 
         if(isAlteracao(aluno)){
             String[] whereParams = {aluno.getId().toString()};
@@ -133,14 +139,6 @@ public class AlunoDAO extends SQLiteOpenHelper {
         return count > 0;
     }
 
-    public void inserir(List<Aluno> alunos) {
-
-        for (Aluno aluno: alunos) {
-            inserir(aluno);
-        }
-
-    }
-
     private boolean existe(Aluno aluno) {
         String sql = "SELECT id FROM Alunos WHERE id = ? LIMIT 1";
         SQLiteDatabase db = getReadableDatabase();
@@ -149,6 +147,13 @@ public class AlunoDAO extends SQLiteOpenHelper {
         int count = c.getCount();
         c.close();
         return count > 0;
+    }
+
+    public List<Aluno> naoSincronizados(){
+        SQLiteDatabase db = getWritableDatabase();
+        String sql = "SELECT * FROM Alunos where sincronizado = 0;";
+        Cursor cursor = db.rawQuery(sql, null);
+        return populaAlunos(cursor);
     }
 
 }

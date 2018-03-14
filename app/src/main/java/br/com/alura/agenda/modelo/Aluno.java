@@ -111,4 +111,8 @@ public class Aluno implements Serializable{
     public void setSincronizado(int sincronizado) {
         this.sincronizado = sincronizado;
     }
+
+    public void sincroniza() {
+        this.sincronizado = 1;
+    }
 }
