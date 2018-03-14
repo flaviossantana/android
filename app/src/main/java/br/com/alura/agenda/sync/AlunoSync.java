@@ -43,7 +43,7 @@ public class AlunoSync {
 
             @Override
             public void onFailure(Call<AlunoSyncDTO> call, Throwable t) {
-
+                Log.e("##ALUNO NÃO SYNC: ", t.getMessage());
             }
         });
 
