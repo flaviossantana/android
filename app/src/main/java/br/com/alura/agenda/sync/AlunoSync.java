@@ -4,6 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
@@ -32,6 +35,15 @@ public class AlunoSync {
     public void sincronizaInternos(){
         final AlunoDAO dao = new AlunoDAO(context);
         List<Aluno> alunos = dao.naoSincronizados();
+
+        ObjectMapper om = new ObjectMapper();
+        try {
+            String alunoJson = om.writeValueAsString(alunos);
+            Log.i("###### LISTA ALUNO: ", alunoJson);
+        } catch (JsonProcessingException e) {
+
+        }
+
         Call<AlunoSyncDTO> call = new RetrofitBuilder().getAlunoService().atualizar(alunos);
         call.enqueue(new Callback<AlunoSyncDTO>() {
             @Override

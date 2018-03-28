@@ -150,7 +150,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
 
     public List<Aluno> naoSincronizados(){
         SQLiteDatabase db = getWritableDatabase();
-        String sql = "SELECT * FROM Alunos where sincronizado = 0;";
+        String sql = "SELECT * FROM Alunos where sincronizado = 0";
         Cursor cursor = db.rawQuery(sql, null);
         return populaAlunos(cursor);
     }

@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.JsonWriter;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -19,6 +20,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -194,23 +199,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
 
-                Call<Void> call = new RetrofitBuilder().getAlunoService().delete(aluno.getId());
+                deletarAluno(aluno);
+                buscarAlunos();
+                Toast.makeText(MainActivity.this, aluno.getNome() +  " deletado com sucesso!", Toast.LENGTH_SHORT).show();
 
-                call.enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        deletarAluno(aluno);
-                        buscarAlunos();
-                        Toast.makeText(MainActivity.this, aluno.getNome() +  " deletado com sucesso!", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(MainActivity.this, "Não foi possivel deletar o aluno "+ aluno.getNome() , Toast.LENGTH_SHORT).show();
-                    }
-                });
+                deletarSync(aluno);
 
                 return false;
+            }
+        });
+    }
+
+    private void deletarSync(final Aluno aluno) {
+        Call<Void> call = new RetrofitBuilder().getAlunoService().delete(aluno.getId());
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Não foi possivel deletar o aluno "+ aluno.getNome() , Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -239,7 +250,15 @@ public class MainActivity extends AppCompatActivity {
         dao.close();
 
         for (Aluno aluno: alunos) {
-            Log.i("## ID ALUNO: ", String.valueOf(aluno.getId()));
+
+            ObjectMapper om = new ObjectMapper();
+            try {
+                String alunoJson = om.writeValueAsString(aluno);
+                Log.i("###### ALUNO: ", alunoJson);
+            } catch (JsonProcessingException e) {
+
+            }
+
         }
 
         AlunoAdapter alunoAdapter = new AlunoAdapter(this, alunos);
