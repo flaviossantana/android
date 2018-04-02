@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.JsonWriter;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -23,7 +22,6 @@ import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,10 +33,6 @@ import br.com.alura.agenda.adapter.AlunoAdapter;
 import br.com.alura.agenda.dao.AlunoDAO;
 import br.com.alura.agenda.event.AtualizarListaAlunoEvent;
 import br.com.alura.agenda.modelo.Aluno;
-import br.com.alura.agenda.retrofit.RetrofitBuilder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -199,29 +193,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
 
-                deletarAluno(aluno);
-                buscarAlunos();
-                Toast.makeText(MainActivity.this, aluno.getNome() +  " deletado com sucesso!", Toast.LENGTH_SHORT).show();
+                AlunoDAO dao = new AlunoDAO(MainActivity.this);
+                dao.deletar(aluno);
+                dao.close();
 
-                deletarSync(aluno);
+                buscarAlunos();
+
+                alunoSync.deletarSync(aluno);
 
                 return false;
-            }
-        });
-    }
-
-    private void deletarSync(final Aluno aluno) {
-        Call<Void> call = new RetrofitBuilder().getAlunoService().delete(aluno.getId());
-
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Não foi possivel deletar o aluno "+ aluno.getNome() , Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -238,11 +218,7 @@ public class MainActivity extends AppCompatActivity {
         return (Aluno) listaAlunosView.getItemAtPosition(position);
     }
 
-    private void deletarAluno(Aluno aluno) {
-        AlunoDAO dao = new AlunoDAO(MainActivity.this);
-        dao.deletar(aluno);
-        dao.close();
-    }
+
 
     private void buscarAlunos() {
         AlunoDAO dao = new AlunoDAO(this);

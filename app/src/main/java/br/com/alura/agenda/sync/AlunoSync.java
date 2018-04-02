@@ -3,6 +3,7 @@ package br.com.alura.agenda.sync;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +12,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
+import br.com.alura.agenda.MainActivity;
 import br.com.alura.agenda.dao.AlunoDAO;
 import br.com.alura.agenda.dto.AlunoSyncDTO;
 import br.com.alura.agenda.event.AtualizarListaAlunoEvent;
@@ -104,5 +106,22 @@ public class AlunoSync {
                 Log.e("onFailure: ", t.getMessage());
             }
         };
+    }
+
+    public void deletarSync(final Aluno aluno) {
+        Call<Void> call = new RetrofitBuilder().getAlunoService().delete(aluno.getId());
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Toast.makeText(context, aluno.getNome() +  " deletado com sucesso!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+
     }
 }
