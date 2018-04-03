@@ -114,6 +114,9 @@ public class AlunoSync {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
+                AlunoDAO dao = new AlunoDAO(context);
+                dao.deletar(aluno);
+                dao.close();
                 Toast.makeText(context, aluno.getNome() +  " deletado com sucesso!", Toast.LENGTH_SHORT).show();
             }
 

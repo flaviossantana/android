@@ -122,5 +122,6 @@ public class Aluno implements Serializable{
 
     public void desativar(){
         this.desativado = 1;
+        desincronizado();
     }
 }
