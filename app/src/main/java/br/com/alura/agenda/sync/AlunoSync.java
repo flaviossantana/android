@@ -10,6 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import br.com.alura.agenda.MainActivity;
@@ -34,7 +37,7 @@ public class AlunoSync {
         alunoPeferences = new AlunoPeferences(context);
     }
 
-    public void sincronizaInternos(){
+    private void sincronizaInternos(){
         final AlunoDAO dao = new AlunoDAO(context);
         List<Aluno> alunos = dao.naoSincronizados();
 
@@ -87,17 +90,15 @@ public class AlunoSync {
         return new Callback<AlunoSyncDTO>() {
             @Override
             public void onResponse(Call<AlunoSyncDTO> call, Response<AlunoSyncDTO> response) {
+
                 AlunoSyncDTO alunoSyncDTO = response.body();
-                AlunoDAO dao = new AlunoDAO(context);
-                dao.sincronizar(alunoSyncDTO.getAlunos());
 
-                String versao = alunoSyncDTO.getMomentoDaUltimaModificacao();
-
-                alunoPeferences.salvarVersao(versao);
+                sincronizar(alunoSyncDTO);
 
                 Log.e("#######VERSÃO: ", alunoPeferences.getVersao());
 
                 bus.post(new AtualizarListaAlunoEvent());
+                sincronizaInternos();
             }
 
             @Override
@@ -106,6 +107,44 @@ public class AlunoSync {
                 Log.e("onFailure: ", t.getMessage());
             }
         };
+    }
+
+    public void sincronizar(AlunoSyncDTO alunoSyncDTO) {
+
+        String versao = alunoSyncDTO.getMomentoDaUltimaModificacao();
+
+        if(isNovaVersao(versao)){
+
+        }
+
+        alunoPeferences.salvarVersao(versao);
+
+        AlunoDAO dao = new AlunoDAO(context);
+        dao.sincronizar(alunoSyncDTO.getAlunos());
+        dao.close();
+    }
+
+    private boolean isNovaVersao(String versao) {
+
+        if(!alunoPeferences.temVersao()){
+            return false;
+        }
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+
+        try {
+
+            Date dataExterna = format.parse(versao);
+            String versaoInterna = alunoPeferences.getVersao();
+            Date dataInterna = format.parse(versaoInterna);
+
+            return dataExterna.after(dataInterna);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     public void deletarSync(final Aluno aluno) {

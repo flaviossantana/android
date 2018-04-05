@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 alunoSync.buscarTodos();
-                alunoSync.sincronizaInternos();
             }
         });
 
@@ -95,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         alunoSync.buscarTodos();
-        alunoSync.sincronizaInternos();
 
     }
 
